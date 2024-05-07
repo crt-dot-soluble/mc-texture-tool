@@ -4,93 +4,92 @@ import java.util.ArrayList;
 
 public class App {
 
-    private Scanner Scanner = new Scanner(System.in);
-    private Path InputPath = Paths.get(System.getenv("APPDATA"), ".minecraft").toAbsolutePath();
-    private Path OutputPath = Paths.get("").toAbsolutePath();
-    private boolean GrayscaleOutput = false;
-    private String Version = "1.20.6";
+    // Globals, most are configurable via runtime flags
+    private Scanner Scanner             = new Scanner(System.in);
+    private Path InputPath              = Paths.get(System.getenv("APPDATA"), ".minecraft");
+    private Path OutputPath             = Paths.get("").toAbsolutePath();
+    private boolean GrayscaleOutput     = false;
+    private String Version              = "1.20.6";
     
-
     public static ArrayList<String> Errors = new ArrayList<>();
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         App a = new App();
-        System.out.println();
-        a.PrintTitle();
+        Console.printTitle();
 
+    //----- User Options
         if(args.length != 0) {
-            a.SetUserOptions(args);
+            Console.logParent("Setting user flags", false);
+            a.setUserOptions(args);
+
+            Console.logParent("Executing with settings:", false);
+            Console.logChild("Input Path: " + a.InputPath, false);
+            Console.logChild("Output Path: " + a.OutputPath, false);
+            Console.logChild("Grayscale Output: " + a.GrayscaleOutput, false);
+            Console.logChild("Minecraft Version: " + a.Version, false);
         } else {
-            System.out.println("* [>] No user options provided, using defaults: ");
-            System.out.println("*\t [+] Input Path: " + a.InputPath);
-            System.out.println("*\t [+] Output Path: " + a.OutputPath);
-            System.out.println("*\t [+] Grayscale Output: " + a.GrayscaleOutput);
-            System.out.println("*\t [+] Version: " + a.Version);
+            Console.logParent("No user options provided, using defaults:", false);
+            Console.logChild("Input Path: " + a.InputPath, false);
+            Console.logChild("Output Path: " + a.OutputPath, false);
+            Console.logChild("Grayscale Output: " + a.GrayscaleOutput, false);
+            Console.logChild("Minecraft Version: " + a.Version, false);
         }
-        
-        // User option errors
-        if(Errors.size() > 0)
-        {
+        if(Errors.size() > 0) {
             a.ErrorOut();
         }
 
+    //----- Jar Extractor
+        Console.logParent("Initializing jar extractor", false);
         Extractor e = new Extractor(a.InputPath, a.Version);
         e.Extract(a.OutputPath.resolve("original"));
-
-        // Extractor/File I/O errors
-        if(Errors.size() > 0)
-        {
+        if(Errors.size() > 0) {
             a.ErrorOut();
         }
 
+    //----- Grayscaler
         if(a.GrayscaleOutput)
         {   
-            System.out.println("* [>] Grayscaling the extracted textures");
-            Grayscaler.Grayscale(Paths.get(a.OutputPath.toString(), "original", "item"), Paths.get(a.OutputPath.toString(), "grayscale", "item"));
-            Grayscaler.Grayscale(Paths.get(a.OutputPath.toString(), "original", "block"), Paths.get(a.OutputPath.toString(), "grayscale", "block"));
+            Console.logParent("Grayscaling the extracted textures", false);
+            Grayscaler.grayscale(Paths.get(a.OutputPath.toString(), "original", "item"), Paths.get(a.OutputPath.toString(), "grayscale", "item"));
+            Grayscaler.grayscale(Paths.get(a.OutputPath.toString(), "original", "block"), Paths.get(a.OutputPath.toString(), "grayscale", "block"));
         }
-
-        // Grayscale/File I/O errors
-        if(Errors.size() > 0)
-        {
+        if(Errors.size() > 0) {
             a.ErrorOut();
         }
 
-        System.out.println();
+        Console.logNewLine();
+        Console.logParent("Press any key to exit...", false);
+        a.Scanner.nextLine();
     }
 
     // Set user provided options
-    private void SetUserOptions(String[] args) {
-        System.out.println("* [>] Setting user provided options...");
-        for(int i = 0; i < args.length; i++)
-        {
+    private void setUserOptions(String[] args) {
+        for(int i = 0; i < args.length; i++) {
             switch (args[i]) {
                 case "-i":
-                    if(!((i+1) > args.length))
-                        SetInputPath(args[i+1]);
+                    if(!((i+1) > args.length)) setInputPath(args[i+1]);
                     break;
 
                 case "-o":
-                    if(!((i+1) > args.length))
-                        SetOutputPath(args[i+1]);
+                    if(!((i+1) > args.length)) setOutputPath(args[i+1]);
                     break;
 
                 case "-v":
-                    if(!((i+1) > args.length))
-                        setVersion(args[i+1]);
+                    if(!((i+1) > args.length)) setVersion(args[i+1]);
                     break;
 
                 case "-g":
                         GrayscaleOutput = true;
-                        System.out.println("*\t [+] Grayscale output flag set: " + GrayscaleOutput);
+                        Console.logChild("Grayscale output flag set: " + GrayscaleOutput, false);
                     break;
+
                 default:
                     break;
             }
         }   
     }
 
-    private void SetOutputPath(String customPath)
+    private void setOutputPath(String customPath)
     {
         try {
             Path path = Paths.get(customPath).toAbsolutePath();
@@ -98,7 +97,7 @@ public class App {
             if(Files.exists(path))
             {
                 OutputPath = path;
-                System.out.println("*\t [+] Output path has been set to: " + path);
+                Console.logChild("Output path has been set to: " + path, false);
             } else {
                 Errors.add("[-] Provided output path does not exist: " + path);
             }
@@ -108,54 +107,49 @@ public class App {
         }
     }
 
-    private void SetInputPath(String customPath)
+    private void setInputPath(String customPath)
     {   
         try {
             Path path = Paths.get(customPath);
             
-            if(Files.exists(path))
-            {
+            if(Files.exists(path)) {
                 InputPath = path;
-                System.out.println("*\t [+] Input path has been set to: " + path);
+                Console.logChild("Input path has been set to: " + path, false);
             } else {
                 Errors.add("[-] Provided input path does not exist: " + path);
             }
             
-        } catch(Exception e) {
+        } catch(InvalidPathException e) {
             Errors.add("[-] Provided input path could not be parses: " + customPath);
         }
     }
 
     public void setVersion(String versionString) {
-        if(McVersion.validate(versionString))
-        {
+        if(McVersion.validate(versionString)) {
             Version = versionString;
-            System.out.println("*\t [+] Set version to: " + Version); 
+            Console.logChild("Set version to: " + Version, false); 
         } else {
             Errors.add("[-] Version string malformed: " + versionString);
         }
     }
 
-    private void ErrorOut()
-    {
-        System.out.println("* [!] Couldn't process the request because the following errors occured:");
+    // Provides all the errors that have been reported and exits the app
+    private void ErrorOut() {
+        System.out.println("* [!] Failed to process the request: ");
+
         for(String s : Errors)
         {
             System.out.println("*\t"+ s);
         }
-        System.out.println("*");
+
+        Console.logNewLine();
         System.out.println("* [>] Press any key to exit...");
         
         Scanner.nextLine();
         System.exit(1);
     }
 
-    private void PrintTitle() {
-        System.out.println("***************************************************");
-        System.out.println("*             Minecraft Texture Tool              ");
-        System.out.println("*         Author: github.com/crt.soluble          ");                       
-        System.out.println("***************************************************");
-        
-        //System.out.println();
+    private void printHelp() {
+        System.out.println("");
     }
 }

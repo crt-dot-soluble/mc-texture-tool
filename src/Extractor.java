@@ -9,11 +9,9 @@ public class Extractor {
 
     private JarFile MinecraftJarFile;
     private Path MinecraftJarPath;
-    //private ArrayList<String> MinecraftJarEntries;
     
     public Extractor(Path inputPath, String version)
     {   
-        System.out.println("* [>] Initializing the extractor...");
         ResolvePath(inputPath, version);
         LoadJar();
     }
@@ -26,7 +24,7 @@ public class Extractor {
             {
                 App.Errors.add("[-] Failed to locate jar file for version " + version + ": " + MinecraftJarPath);
             } else {
-                System.out.println("*\t [+] Jar file found for version " + version + ": " + MinecraftJarPath);   
+                System.out.println("*\t [+] Jar file found for version " + version + ": " + "\n*\t [>] " + MinecraftJarPath);   
             }
 
         } catch(Exception e) {
@@ -90,6 +88,6 @@ public class Extractor {
             }
         }
 
-        System.out.println("*\t [+] Extraction output sent to: " + outputPath.toString());
+        System.out.println("*\t [+] Extraction output sent to: " + "\n*\t [>] " + outputPath.toString());
     }
 }

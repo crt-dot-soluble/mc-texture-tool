@@ -8,7 +8,7 @@ import javax.imageio.ImageIO;
 
 public class Grayscaler {
 
-    public static BufferedImage Grayscale(Path inputPath, Path outputPath) {
+    public static BufferedImage grayscale(Path inputPath, Path outputPath) {
         File inputFolder = new File(inputPath.toString());
         File[] textures = inputFolder.listFiles();
         
@@ -16,28 +16,29 @@ public class Grayscaler {
             try {
                 Files.createDirectories(outputPath);
             } catch (IOException e) {
-                System.err.println("[-] Failed to create grayscaled texture output directory: " + outputPath);
+                System.out.println("[-] Failed to create grayscaled texture output directory: " + outputPath);
             }
 
             for (File t : textures) {
                 if (t.isFile() && t.getName().endsWith(".png")) {
                     try {
                         BufferedImage originalImage = ImageIO.read(t);
-                        BufferedImage grayscaleImage = GetGrayScaleImage(originalImage);
+                        BufferedImage grayscaleImage = getGrayScaleImage(originalImage);
                         File grayscaleImageFile = new File(outputPath.toString(), t.getName());
                         ImageIO.write(grayscaleImage, "png", grayscaleImageFile);
                     } catch (IOException ioe) {
-                        System.err.println("Failed to load texture file: " + t.getName());
+                        System.out.println("Failed to load texture file: " + t.getName());
                     }
                 }
             }
-            System.out.println("*\t [+] Grayscaling completed processing " + textures.length + " files: " + outputPath);
+            System.out.println("*\t [+] Grayscaling completed processing " + textures.length + " files: " + "\n*\t [>] " + outputPath);
         }
 
         return null; // Return null since we don't need the grayscale image here
     }
 
-    private static BufferedImage GetGrayScaleImage(BufferedImage originalImage) {
+    // Writes the grayscale pixel data to a new BufferedImage object - utility for the Grayscale function
+    private static BufferedImage getGrayScaleImage(BufferedImage originalImage) {
         BufferedImage grayscaleImage = new BufferedImage(
             originalImage.getWidth(),
             originalImage.getHeight(),
