@@ -24,19 +24,19 @@ This will not be required in the future when the features are no longer in previ
 
 ### From Compiled Source
 
-```java
+```txt
 java --enable-preview App 
 ```
 
 ### From Executable Jar
 
-```java
+```txt
 java --enable-preview -jar mc-texture-tool.jar  
 ```
 
 ### Supported Flags
 
-```java
+```txt
 java --enable-preview -jar -g           // grayscale output
                            -i <Path>    // Specify input folder (the location of the .minecraft folder)
                            -o <Path>    // Specify output folder (i.e. C:/textures/)
@@ -50,7 +50,7 @@ java --enable-preview -jar -g           // grayscale output
 
 An execution with the ```-g``` flag present would provide the following output...
 
-```batch
+```text
 ***************************************************
 *             Minecraft Texture Tool
 *         Author: github.com/crt.soluble
@@ -87,7 +87,7 @@ An execution with the ```-g``` flag present would provide the following output..
 
 MCreator allows you to import and colorizing texture templates to create custom item and block textures. To easily create custom vanilla style textures using the original textures as a base copy the contents of the directories:
 
-```batch
+```text
 grayscale/item
 grayscale/block
 
