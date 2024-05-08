@@ -109,20 +109,20 @@ An execution with the ```-g``` flag present would provide the following output..
 
 ## Using With MCreator
 
-[MCreator](https://mcreator.net/) allows you to import and colorizing texture templates to create custom item and block textures. To easily create custom vanilla style textures using the original textures as a base copy the contents of the directories:
+[MCreator](https://mcreator.net/) allows you to import and colorizing texture templates to create custom item and block textures. To easily create custom vanilla style textures using the original textures as a base copy the contents of the directories to the appropriate MCreator template folder:
 
 ```text
-grayscale/item
-grayscale/block
-grayscale/models/armor
+grayscale/item          -> ...\.mcreator\templates\textures\texturemaker
+grayscale/block         -> ...\.mcreator\templates\textures\texturemaker
+grayscale/models/armor  -> ...\.mcreator\templates\textures\armormaker
 ```
 
 and (optionally, if you'd like to use the vanilla tool and weapon handles etc...)
 
 ```text
-original/item
-original/block
-original/models/armor
+original/item           -> ...\.mcreator\templates\textures\texturemaker
+original/block          -> ...\.mcreator\templates\textures\texturemaker
+original/models/armor   -> ...\.mcreator\templates\textures\armormaker
 ```
 
 Open, or reopen MCreator to get access to the new texture templates.
