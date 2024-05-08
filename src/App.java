@@ -21,19 +21,16 @@ public class App {
         if(args.length != 0) {
             Console.logParent("Setting user flags", false);
             a.setUserOptions(args);
-
-            Console.logParent("Executing with settings:", false);
-            Console.logChild("Input Path: " + a.InputPath, false);
-            Console.logChild("Output Path: " + a.OutputPath, false);
-            Console.logChild("Grayscale Output: " + a.GrayscaleOutput, false);
-            Console.logChild("Minecraft Version: " + a.Version, false);
         } else {
             Console.logParent("No user options provided, using defaults:", false);
-            Console.logChild("Input Path: " + a.InputPath, false);
-            Console.logChild("Output Path: " + a.OutputPath, false);
-            Console.logChild("Grayscale Output: " + a.GrayscaleOutput, false);
-            Console.logChild("Minecraft Version: " + a.Version, false);
         }
+
+        Console.logParent("Executing with settings:", false);
+        Console.logChild("Input Path: " + a.InputPath, false);
+        Console.logChild("Output Path: " + a.OutputPath, false);
+        Console.logChild("Grayscale Output: " + a.GrayscaleOutput, false);
+        Console.logChild("Minecraft Version: " + a.Version, false);
+
         if(Errors.size() > 0) {
             a.ErrorOut();
         }
@@ -52,12 +49,13 @@ public class App {
             Console.logParent("Grayscaling the extracted textures", false);
             Grayscaler.grayscale(Paths.get(a.OutputPath.toString(), "original", "item"), Paths.get(a.OutputPath.toString(), "grayscale", "item"));
             Grayscaler.grayscale(Paths.get(a.OutputPath.toString(), "original", "block"), Paths.get(a.OutputPath.toString(), "grayscale", "block"));
+            Grayscaler.grayscale(Paths.get(a.OutputPath.toString(), "original", "models", "armor"), Paths.get(a.OutputPath.toString(), "grayscale", "models", "armor"));
         }
         if(Errors.size() > 0) {
             a.ErrorOut();
         }
 
-        Console.logNewLine();
+        //Console.logNewLine();
         Console.logParent("Press any key to exit...", false);
         a.Scanner.nextLine();
     }
@@ -68,20 +66,26 @@ public class App {
             switch (args[i]) {
                 case "-i":
                     if(!((i+1) > args.length)) setInputPath(args[i+1]);
-                    break;
+                break;
 
                 case "-o":
                     if(!((i+1) > args.length)) setOutputPath(args[i+1]);
-                    break;
+                break;
 
                 case "-v":
                     if(!((i+1) > args.length)) setVersion(args[i+1]);
-                    break;
+                break;
 
                 case "-g":
-                        GrayscaleOutput = true;
-                        Console.logChild("Grayscale output flag set: " + GrayscaleOutput, false);
-                    break;
+                    GrayscaleOutput = true;
+                    Console.logChild("Grayscale output flag set: " + GrayscaleOutput, false);
+                break;
+                
+                case "-?":
+                Console.logChild("Help flag set", false);
+                    Console.printHelp();
+                    System.exit(0);
+                break;
 
                 default:
                     break;
@@ -99,11 +103,11 @@ public class App {
                 OutputPath = path;
                 Console.logChild("Output path has been set to: " + path, false);
             } else {
-                Errors.add("[-] Provided output path does not exist: " + path);
+                Errors.add("Provided output path does not exist: " + path);
             }
             
         } catch(Exception e) {
-            Errors.add("[-] Provided output path could not be parsed: " + customPath);
+            Errors.add("Provided output path could not be parsed: " + customPath);
         }
     }
 
@@ -116,11 +120,11 @@ public class App {
                 InputPath = path;
                 Console.logChild("Input path has been set to: " + path, false);
             } else {
-                Errors.add("[-] Provided input path does not exist: " + path);
+                Errors.add("Provided input path does not exist: " + path);
             }
             
         } catch(InvalidPathException e) {
-            Errors.add("[-] Provided input path could not be parses: " + customPath);
+            Errors.add("Provided input path could not be parses: " + customPath);
         }
     }
 
@@ -129,27 +133,24 @@ public class App {
             Version = versionString;
             Console.logChild("Set version to: " + Version, false); 
         } else {
-            Errors.add("[-] Version string malformed: " + versionString);
+            Errors.add("Version string malformed: " + versionString);
         }
     }
 
     // Provides all the errors that have been reported and exits the app
     private void ErrorOut() {
-        System.out.println("* [!] Failed to process the request: ");
+        //System.out.println("* [!] Failed to process the request: ");
+        Console.logParent("Failed to process the request:", true);
 
         for(String s : Errors)
         {
-            System.out.println("*\t"+ s);
+            Console.logChild(s, true);
         }
 
-        Console.logNewLine();
-        System.out.println("* [>] Press any key to exit...");
+        //Console.logNewLine();
+        Console.logParent("Press any key to exit...", false);
         
         Scanner.nextLine();
         System.exit(1);
-    }
-
-    private void printHelp() {
-        System.out.println("");
     }
 }

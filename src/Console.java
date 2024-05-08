@@ -28,4 +28,13 @@ public class Console {
         
         //System.out.println();
     }
+
+    public static void printHelp() {
+        Console.logParent("Usage: mc-texture-tool.jar <flags>", false);
+        Console.logChild("-i <Path>\tSets the input path (the directory containing the .minecraft folder)", false);
+        Console.logChild("-o <Path>\tSets the output path", false);
+        Console.logChild("-v <A.B.C>\tSets the desired Mineraft jar version to use", false);
+        Console.logChild("-g\t\tIf this flag is present the output will be grayscaled", false);
+        Console.logNewLine();
+    }
 }

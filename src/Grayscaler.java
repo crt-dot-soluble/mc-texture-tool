@@ -15,8 +15,9 @@ public class Grayscaler {
         if (textures != null) {
             try {
                 Files.createDirectories(outputPath);
+                Console.logChild("Directory created: " + outputPath, false);
             } catch (IOException e) {
-                System.out.println("[-] Failed to create grayscaled texture output directory: " + outputPath);
+                App.Errors.add("Failed to create grayscaled texture output directory: " + outputPath);
             }
 
             for (File t : textures) {
@@ -24,14 +25,14 @@ public class Grayscaler {
                     try {
                         BufferedImage originalImage = ImageIO.read(t);
                         BufferedImage grayscaleImage = getGrayScaleImage(originalImage);
-                        File grayscaleImageFile = new File(outputPath.toString(), t.getName());
+                        File grayscaleImageFile = new File(outputPath.toString(), t.getName().substring(0, t.getName().length() - 4) + "-grayscaled.png");
                         ImageIO.write(grayscaleImage, "png", grayscaleImageFile);
                     } catch (IOException ioe) {
-                        System.out.println("Failed to load texture file: " + t.getName());
+                        App.Errors.add("Failed to load texture file: " + t.getName());
                     }
                 }
             }
-            System.out.println("*\t [+] Grayscaling completed processing " + textures.length + " files: " + "\n*\t [>] " + outputPath);
+            Console.logChild("Grayscaler completed processing " + textures.length + " " + outputPath.getName(outputPath.getNameCount() - 1) + " textures", false);
         }
 
         return null; // Return null since we don't need the grayscale image here

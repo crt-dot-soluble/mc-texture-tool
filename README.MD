@@ -1,21 +1,46 @@
 
 # MC-Texture-Tool
 
+**Dependecies**
+
+- [Java](https://www.oracle.com/in/java/technologies/downloads/)
+
+**Build from source:**
+
+1. Clone the repo:
+
+    ```bat
+    git clone https://github.com/crt-dot-soluble/mc-texture-tool.git    
+    ```
+
+2. Navigate to the directory the repo was cloned to:
+
+    ```bat
+    cd mc-texture-tool
+    ```
+
+3. Compile the source:
+
+    ```bat
+    javac src/*.java
+    ```
+
 ## Purpose
 
-MC-Texture-Tool extracts the relevant textures from the game jar directly and stagers them into folders of the same name. Also provides an option to grayscale the textures for easy vanilla-style texture creation.
+MC-Texture-Tool assists in mod development and custom texture creation.
 
-## Use Cases
-
-For use in Minecraft mod devepment. More specifically - for use within MCreator.
+Recommended for use within [MCreator](https://mcreator.net/), a mod creation suite with solid support for texture templating and colorization.
 
 ## Features
 
-- Automatic texture extraction
-- Specify install directory and game version
-- Grayscale textures
+- Texture extraction for
+  - Items
+  - Blocks
+  - Armor
+- Grayscaling of extracted textures
+- User options via runtime flags
 
-## Useage
+## Usage
 
 **Note:**
 
@@ -60,39 +85,40 @@ An execution with the ```-g``` flag present would provide the following output..
 *        [+] Grayscale output flag set: true
 *
 * [>] Executing with settings:
-*        [+] Input Path: C:\Users\Corde\AppData\Roaming\.minecraft
-*        [+] Output Path: C:\Users\Corde\OneDrive\projects\New folder\mc-texture-tool
+*        [+] Input Path: C:\Users\User\AppData\Roaming\.minecraft
+*        [+] Output Path: C:\Users\User\mc-texture-tool
 *        [+] Grayscale Output: true
 *        [+] Minecraft Version: 1.20.6
 *
 * [>] Initializing jar extractor
-*        [+] Jar file found for version 1.20.6: 
-*        [>] C:\Users\Corde\AppData\Roaming\.minecraft\versions\1.20.6\1.20.6.jar
-*        [+] Jar file loaded into memory
+*        [+] Jar file found for version 1.20.6: C:\Users\User\AppData\Roaming\.minecraft\versions\1.20.6\1.20.6.jar
+*        [+] Jar file loaded
 *        [+] Extraction started
-*        [+] Extraction output sent to: 
-*        [>] C:\Users\Corde\OneDrive\projects\New folder\mc-texture-tool\original
+*        [+] Extraction output sent to: C:\Users\User\mc-texture-tool\original
 *
 * [>] Grayscaling the extracted textures
-*        [+] Grayscaling completed processing 602 files: 
-*        [>] C:\Users\Corde\OneDrive\projects\New folder\mc-texture-tool\grayscale\item
-*        [+] Grayscaling completed processing 1061 files: 
-*        [>] C:\Users\Corde\OneDrive\projects\New folder\mc-texture-tool\grayscale\block
-*
+*        [+] Directory created: C:\Users\User\mc-texture-tool\grayscale\item
+*        [+] Grayscaler completed processing 602 item textures
+*        [+] Directory created: C:\Users\User\mc-texture-tool\grayscale\block
+*        [+] Grayscaler completed processing 1061 block textures
+*        [+] Directory created: C:\Users\User\mc-texture-tool\grayscale\models\armor
+*        [+] Grayscaler completed processing 15 armor textures
 *
 * [>] Press any key to exit...
 ```
 
 ## Using With MCreator
 
-MCreator allows you to import and colorizing texture templates to create custom item and block textures. To easily create custom vanilla style textures using the original textures as a base copy the contents of the directories:
+[MCreator](https://mcreator.net/) allows you to import and colorizing texture templates to create custom item and block textures. To easily create custom vanilla style textures using the original textures as a base copy the contents of the directories:
 
 ```text
 grayscale/item
 grayscale/block
+```
 
-and (optionally to use the pre-colored tool handles etc...)
+and (optionally, if you'd like to use the vanilla tool and weapon handles etc...)
 
+```text
 original/item
 original/block
 ```
@@ -105,11 +131,9 @@ Below are some vanilla style item textures created by colorizing the grayscaled 
 
 ![alt text](images/custom_textures.png)
 
-
-
 ## Planned Features
 
-- Armor extraction & grayscaling
-- Automatic install of textures to mcreator templates folder
-- In app ```-?``` (help) flag
+- Automatic install of textures to MCreator templates folder
 - Graphical UI package
+- Support for a wider range of textures (and maybe models)
+- Code cleanup & refactor (ick)
