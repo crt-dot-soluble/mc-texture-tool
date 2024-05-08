@@ -1,7 +1,7 @@
 
 # MC-Texture-Tool
 
-**Dependecies**
+**Dependecies:**
 
 - [Java](https://www.oracle.com/in/java/technologies/downloads/)
 
