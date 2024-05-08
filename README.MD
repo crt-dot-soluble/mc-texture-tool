@@ -114,6 +114,7 @@ An execution with the ```-g``` flag present would provide the following output..
 ```text
 grayscale/item
 grayscale/block
+grayscale/models/armor
 ```
 
 and (optionally, if you'd like to use the vanilla tool and weapon handles etc...)
@@ -121,6 +122,7 @@ and (optionally, if you'd like to use the vanilla tool and weapon handles etc...
 ```text
 original/item
 original/block
+original/models/armor
 ```
 
 Open, or reopen MCreator to get access to the new texture templates.
